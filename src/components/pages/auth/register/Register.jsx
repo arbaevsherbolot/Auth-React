@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import styles from "./Register.module.scss";
 
 const Register = () => {
+  document.title = "Test Auth | Register";
+
   const [data, setData] = useState({
     username: "",
     email: "",

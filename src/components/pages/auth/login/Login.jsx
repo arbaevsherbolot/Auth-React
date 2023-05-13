@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import styles from "./Login.module.scss";
 
 const Login = () => {
+  document.title = "Test Auth | Login";
+
   const [data, setData] = useState({
     username: "",
     password: "",
