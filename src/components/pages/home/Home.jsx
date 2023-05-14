@@ -3,11 +3,7 @@ import axios from "axios";
 
 const Home = () => {
   document.title = "Home";
-  return (
-    <>
-      <h1>Welcome !</h1>
-    </>
-  );
+  return <></>;
 };
 
 export default Home;
