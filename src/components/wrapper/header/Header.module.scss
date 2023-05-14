@@ -5,14 +5,20 @@
   margin-bottom: 2rem;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
-  background: #13202d;
+  background: #0d131887;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 
-  border-bottom: 1px solid #dedede5d;
+  .logo {
+    width: 90px;
+
+    img {
+      width: 100%;
+    }
+  }
 
   .links {
     text-align: center;
@@ -29,15 +35,18 @@
       color: #fff;
 
       transition: 0.5s;
+
+      background-color: #5f62e2;
     }
 
     .link:hover {
-      background-color: #0088ff;
+      background-color: #5254c6;
     }
 
     .active_link {
-      outline: 1px solid #dedede5d;
-      color: #9ed2ff;
+      color: #9193ff;
+      outline: 1px solid #9193ff;
+      background-color: transparent;
     }
   }
 }

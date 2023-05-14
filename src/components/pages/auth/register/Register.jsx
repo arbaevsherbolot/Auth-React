@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import styles from "./Register.module.scss";
 
 const Register = () => {
-  document.title = "Test Auth | Register";
+  document.title = "Register";
 
   const [data, setData] = useState({
     username: "",
@@ -36,6 +36,7 @@ const Register = () => {
   };
 
   const server_url = "https://auth-node.up.railway.app/auth";
+
   const navigate = useNavigate();
 
   const notifyError = () => {
@@ -74,6 +75,8 @@ const Register = () => {
     <>
       <div className={styles.page}>
         <form onSubmit={sendData} className={styles.form}>
+          <h3 className={styles.title}>Welcome! 👋🏻</h3>
+
           <input
             required
             type="text"
@@ -102,7 +105,7 @@ const Register = () => {
           />
 
           <button type="submit" className={styles.button}>
-            Register
+            Sign Up
           </button>
 
           <Link className={styles.link} to="/login">

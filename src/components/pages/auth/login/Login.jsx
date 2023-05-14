@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,14 +6,12 @@ import "react-toastify/dist/ReactToastify.css";
 import styles from "./Login.module.scss";
 
 const Login = () => {
-  document.title = "Test Auth | Login";
+  document.title = "Login";
 
   const [data, setData] = useState({
     username: "",
     password: "",
   });
-
-  const [userStatus, setUserStatus] = useState(false);
 
   const handleChangeUsername = (e) => {
     setData((prev) => ({
@@ -21,8 +19,6 @@ const Login = () => {
       username: e.target.value,
     }));
   };
-
-  const [user, setUser] = useState([{}]);
 
   const handleChangePassword = (e) => {
     setData((prev) => ({
@@ -34,7 +30,7 @@ const Login = () => {
   const server_url = "https://auth-node.up.railway.app/auth";
 
   const notifySuccess = () => {
-    return toast.success("User is successfully logged in!", {
+    return toast.success("Successfully logged in", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -46,8 +42,10 @@ const Login = () => {
     });
   };
 
-  const notifyError = () => {
-    return toast.error("Incorrect username or password!", {
+  const notifyError = (msg) => {
+    const defaultMessage = "Server temporarily unavailable";
+
+    return toast.error(msg ? `${msg}` : defaultMessage, {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -65,32 +63,23 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const result = await axios.post(`${server_url}/login`, data);
+      await axios.post(`${server_url}/login`, data).then((res) => {
+        if (res.data.auth === true) {
+          notifySuccess();
 
-      const new_user = result.data.data;
-      const token = result.data.token;
+          console.log(res.data);
 
-      const authStatus = result.data.auth;
+          setData((prev) => ({
+            ...prev,
+            username: "",
+            password: "",
+          }));
 
-      if (authStatus === true) {
-        setUserStatus(true);
-        localStorage.setItem("token", token);
-        localStorage.setItem("username", new_user[0].username);
-        localStorage.setItem("email", new_user[0].email);
-      } else {
-        setUserStatus(false);
-        localStorage.setItem("token", null);
-        localStorage.setItem("username", null);
-        localStorage.setItem("email", null);
-      }
-
-      notifySuccess();
-
-      setData((prev) => ({
-        ...prev,
-        username: "",
-        password: "",
-      }));
+          navigate("/");
+        } else {
+          notifyError(res.data.message);
+        }
+      });
     } catch {
       notifyError();
     }
@@ -99,37 +88,35 @@ const Login = () => {
   return (
     <>
       <div className={styles.page}>
-        {userStatus ? (
-          navigate("/")
-        ) : (
-          <form onSubmit={sendData} className={styles.form}>
-            <input
-              required
-              type="text"
-              value={data.username}
-              placeholder="Username"
-              onChange={handleChangeUsername}
-              className={styles.input}
-            />
+        <form onSubmit={sendData} className={styles.form}>
+          <h3 className={styles.title}>Welcome back! 👋🏻</h3>
 
-            <input
-              required
-              type="text"
-              value={data.password}
-              placeholder="Password"
-              onChange={handleChangePassword}
-              className={styles.input}
-            />
+          <input
+            required
+            type="text"
+            value={data.username}
+            placeholder="Username"
+            onChange={handleChangeUsername}
+            className={styles.input}
+          />
 
-            <button type="submit" className={styles.button}>
-              Login
-            </button>
+          <input
+            required
+            type="text"
+            value={data.password}
+            placeholder="Password"
+            onChange={handleChangePassword}
+            className={styles.input}
+          />
 
-            <Link className={styles.link} to="/register">
-              Do not have an account? <span>Register</span>
-            </Link>
-          </form>
-        )}
+          <button type="submit" className={styles.button}>
+            Log In
+          </button>
+
+          <Link className={styles.link} to="/register">
+            Do not have an account? <span>Register</span>
+          </Link>
+        </form>
 
         <ToastContainer
           position="top-center"
