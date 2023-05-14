@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,12 +13,7 @@ const Login = () => {
     password: "",
   });
 
-  const [user, setUser] = useState([{}]);
-
-  const [reply, setReply] = useState({
-    message: "",
-    error: "",
-  });
+  const [userStatus, setUserStatus] = useState(false);
 
   const handleChangeUsername = (e) => {
     setData((prev) => ({
@@ -26,6 +21,8 @@ const Login = () => {
       username: e.target.value,
     }));
   };
+
+  const [user, setUser] = useState([{}]);
 
   const handleChangePassword = (e) => {
     setData((prev) => ({
@@ -62,14 +59,30 @@ const Login = () => {
     });
   };
 
+  const navigate = useNavigate();
+
   const sendData = async (e) => {
     e.preventDefault();
 
     try {
       const result = await axios.post(`${server_url}/login`, data);
-      const new_user = result.data.data;
 
-      setUser(new_user);
+      const new_user = result.data.data;
+      const token = result.data.token;
+
+      const authStatus = result.data.auth;
+
+      if (authStatus === true) {
+        setUserStatus(true);
+        localStorage.setItem("token", token);
+        localStorage.setItem("username", new_user[0].username);
+        localStorage.setItem("email", new_user[0].email);
+      } else {
+        setUserStatus(false);
+        localStorage.setItem("token", null);
+        localStorage.setItem("username", null);
+        localStorage.setItem("email", null);
+      }
 
       notifySuccess();
 
@@ -86,11 +99,8 @@ const Login = () => {
   return (
     <>
       <div className={styles.page}>
-        {user[0].username && user[0].email ? (
-          <div className={styles.profile}>
-            <p className={styles.username}>Welcome {user[0].username}!</p>
-            <p className={styles.email}>{user[0].email}</p>
-          </div>
+        {userStatus ? (
+          navigate("/")
         ) : (
           <form onSubmit={sendData} className={styles.form}>
             <input
