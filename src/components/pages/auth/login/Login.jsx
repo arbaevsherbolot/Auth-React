@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import show_icon from "../../../../assets/svg/show.svg";
 import styles from "./Login.module.scss";
 
 const Login = () => {
@@ -12,6 +13,8 @@ const Login = () => {
     username: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChangeUsername = (e) => {
     setData((prev) => ({
@@ -27,6 +30,10 @@ const Login = () => {
     }));
   };
 
+  const password_toggle = () => {
+    setShowPassword(!showPassword);
+  };
+
   const server_url = "https://auth-node.up.railway.app/auth";
 
   const notifySuccess = () => {
@@ -38,7 +45,7 @@ const Login = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: "dark",
     });
   };
 
@@ -53,7 +60,7 @@ const Login = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: "dark",
     });
   };
 
@@ -63,26 +70,35 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      await axios.post(`${server_url}/login`, data).then((res) => {
-        if (res.data.auth === true) {
-          notifySuccess();
+      if (!validateUsername(data.username)) {
+        notifyError("Invalid Username!");
+      } else {
+        await axios.post(`${server_url}/login`, data).then((res) => {
+          if (res.data.auth === true) {
+            console.log(res.data);
 
-          console.log(res.data);
+            notifySuccess();
 
-          setData((prev) => ({
-            ...prev,
-            username: "",
-            password: "",
-          }));
+            setData((prev) => ({
+              ...prev,
+              username: "",
+              password: "",
+            }));
 
-          navigate("/");
-        } else {
-          notifyError(res.data.message);
-        }
-      });
+            navigate("/");
+          } else {
+            notifyError(res.data.message);
+          }
+        });
+      }
     } catch {
       notifyError();
     }
+  };
+
+  const validateUsername = (username) => {
+    const regex = /^[\w\s]{2,30}$/;
+    return regex.test(username);
   };
 
   return (
@@ -100,14 +116,23 @@ const Login = () => {
             className={styles.input}
           />
 
-          <input
-            required
-            type="text"
-            value={data.password}
-            placeholder="Password"
-            onChange={handleChangePassword}
-            className={styles.input}
-          />
+          <div className={styles.password_wrapper}>
+            <input
+              required
+              type={showPassword ? "text" : "password"}
+              value={data.password}
+              placeholder="Password"
+              onChange={handleChangePassword}
+              className={styles.input}
+            />
+
+            <img
+              src={show_icon}
+              alt="password-icon"
+              className={styles.password_btn}
+              onClick={password_toggle}
+            />
+          </div>
 
           <button type="submit" className={styles.button}>
             Log In
@@ -118,18 +143,7 @@ const Login = () => {
           </Link>
         </form>
 
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+        <ToastContainer />
       </div>
     </>
   );

@@ -12,7 +12,7 @@
     max-width: 440px;
 
     margin: 1rem;
-    padding: 2rem 2rem;
+    padding: 0.5rem;
 
     border-radius: 12px;
 
@@ -21,13 +21,10 @@
 
     gap: 1rem;
 
-    background-color: #fff;
-
     @media (max-width: 767px) {
       max-width: 370px;
 
       margin: 1rem;
-      padding: 1.5rem 1.5rem;
     }
 
     .title {
@@ -37,49 +34,75 @@
 
       font-size: 2.2rem;
       font-weight: 800;
-      color: #152230;
+      color: #fff;
+      text-shadow: 0 0 90px #0055ff;
     }
 
     .input {
       width: 100%;
-      padding: 1rem 1.3rem;
+      padding: 1.1rem 1.3rem;
 
-      border: 1px solid #d6d6d6;
+      border: 1.1px solid #0055ff;
       border-radius: 0.455rem;
+
+      background: transparent;
+
+      font-size: 1rem;
+      color: #fff;
 
       &:focus {
         outline: 0;
+        background-color: #0055ff4f;
       }
 
       &::placeholder {
         font-size: 1rem;
-        color: #b4b4b4;
+        letter-spacing: 0.03rem;
+        color: #ffffff38;
+      }
+    }
+
+    .password_wrapper {
+      position: relative;
+
+      .password_btn {
+        position: absolute;
+        right: 4%;
+        top: 50%;
+
+        transform: translate(-4%, -50%);
       }
     }
 
     .button {
       width: 100%;
 
-      padding: 1.3rem;
+      padding: 1.2rem;
       margin-top: 0.8rem;
 
       border: none;
       border-radius: 0.455rem;
 
-      background-color: #5f62e2;
+      background-color: #0055ff;
 
       font-size: 1rem;
       font-weight: 600;
       color: #fff;
+
+      transition: 0.4s;
+
+      &:hover {
+        background-color: #004ade;
+      }
     }
 
     .link {
       text-align: center;
       font-size: 0.9rem;
-      color: #152230;
+      color: #fff;
 
       span {
-        color: #5f62e2;
+        color: #0055ff;
       }
     }
   }

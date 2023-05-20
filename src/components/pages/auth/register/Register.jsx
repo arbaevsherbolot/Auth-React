@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import show_icon from "../../../../assets/svg/show.svg";
 import styles from "./Register.module.scss";
 
 const Register = () => {
@@ -13,6 +14,8 @@ const Register = () => {
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChangeUsername = (e) => {
     setData((prev) => ({
@@ -35,12 +38,16 @@ const Register = () => {
     }));
   };
 
+  const password_toggle = () => {
+    setShowPassword(!showPassword);
+  };
+
   const server_url = "https://auth-node.up.railway.app/auth";
 
   const navigate = useNavigate();
 
-  const notifyError = () => {
-    return toast.error("Username already exists!", {
+  const notifyError = (msg) => {
+    return toast.error(`${msg}`, {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -48,7 +55,7 @@ const Register = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: "dark",
     });
   };
 
@@ -56,19 +63,37 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post(`${server_url}/register`, data);
+      if (!validateUsername(data.username)) {
+        notifyError("Invalid Username!");
+      } else if (!validateEmail(data.email)) {
+        notifyError("Invalid Email!");
+      } else if (data.password.length < 8) {
+        notifyError("Password must be at least 8 characters!");
+      } else {
+        await axios.post(`${server_url}/register`, data);
 
-      setData((prev) => ({
-        ...prev,
-        username: "",
-        email: "",
-        password: "",
-      }));
+        setData((prev) => ({
+          ...prev,
+          username: "",
+          email: "",
+          password: "",
+        }));
 
-      navigate("/login");
+        navigate("/login");
+      }
     } catch {
-      notifyError();
+      notifyError("Username already exists!");
     }
+  };
+
+  const validateUsername = (username) => {
+    const regex = /^[\w\s]{2,30}$/;
+    return regex.test(username);
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^\S+@\S+\.\S+$/;
+    return regex.test(email);
   };
 
   return (
@@ -95,14 +120,23 @@ const Register = () => {
             className={styles.input}
           />
 
-          <input
-            required
-            type="text"
-            value={data.password}
-            placeholder="Password"
-            onChange={handleChangePassword}
-            className={styles.input}
-          />
+          <div className={styles.password_wrapper}>
+            <input
+              required
+              type={showPassword ? "text" : "password"}
+              value={data.password}
+              placeholder="Password"
+              onChange={handleChangePassword}
+              className={styles.input}
+            />
+
+            <img
+              src={show_icon}
+              alt="password-icon"
+              className={styles.password_btn}
+              onClick={password_toggle}
+            />
+          </div>
 
           <button type="submit" className={styles.button}>
             Sign Up
@@ -113,18 +147,7 @@ const Register = () => {
           </Link>
         </form>
 
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+        <ToastContainer />
       </div>
     </>
   );
