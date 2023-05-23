@@ -1,8 +1,11 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
+import { useAuthUser } from "react-auth-kit";
 import styles from "./Header.module.scss";
 
 export const Header = () => {
+  const auth = useAuthUser();
+
   return (
     <>
       <div className={styles.navbar}>
@@ -15,15 +18,17 @@ export const Header = () => {
           </div>
         </Link>
 
-        <div className={styles.links}>
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              isActive ? styles.active_link : styles.link
-            }>
-            Sign In
-          </NavLink>
-        </div>
+        {auth() ? null : (
+          <div className={styles.links}>
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? styles.active_link : styles.link
+              }>
+              Sign In
+            </NavLink>
+          </div>
+        )}
       </div>
     </>
   );
