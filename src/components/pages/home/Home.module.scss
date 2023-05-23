@@ -1,0 +1,55 @@
+.profile {
+  padding: 2rem;
+
+  width: 100vw;
+  max-width: 350px;
+
+  text-align: center;
+
+  border-radius: 12px;
+  border: 1px solid #c7daff52;
+
+  background-color: #080d175a;
+  backdrop-filter: blur(4px);
+
+  .username {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .email {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #dbefffa9;
+  }
+
+  .btn {
+    margin-top: 1rem;
+    padding: 0.7rem;
+
+    width: 30%;
+
+    border: none;
+    border-radius: 7px;
+    outline: none;
+
+    background-color: #ff2c2c;
+
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+
+    transition: 0.4s;
+
+    &:hover {
+      background-color: #e71d1d;
+    }
+  }
+}
+
+.welcome {
+  .title {
+    color: #fff;
+  }
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSignIn } from "react-auth-kit";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import show_icon from "../../../../assets/svg/show.svg";
@@ -15,6 +16,8 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const signIn = useSignIn();
 
   const handleChangeUsername = (e) => {
     setData((prev) => ({
@@ -75,7 +78,21 @@ const Login = () => {
       } else {
         await axios.post(`${server_url}/login`, data).then((res) => {
           if (res.data.auth === true) {
-            console.log(res.data);
+            const token = res.data.token;
+            const username = res.data.data.username;
+            const email = res.data.data.email;
+
+            signIn({
+              token: token,
+              expiresIn: 3600,
+              tokenType: "Bearer",
+              authState: {
+                username: username,
+                email: email,
+              },
+            });
+
+            navigate("/");
 
             notifySuccess();
 
@@ -84,8 +101,6 @@ const Login = () => {
               username: "",
               password: "",
             }));
-
-            navigate("/");
           } else {
             notifyError(res.data.message);
           }
