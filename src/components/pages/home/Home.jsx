@@ -7,7 +7,7 @@ const Home = () => {
   const auth = useAuthUser();
   const signOut = useSignOut();
 
-  document.title = `Home | ${auth().username}`;
+  document.title = `Home ${auth() ? " | " + auth().username : ""}`;
 
   const HandleSignOut = () => {
     signOut();
