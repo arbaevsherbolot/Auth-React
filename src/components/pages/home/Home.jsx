@@ -4,10 +4,10 @@ import { useSignOut } from "react-auth-kit";
 import styles from "./Home.module.scss";
 
 const Home = () => {
-  document.title = "Home";
-
   const auth = useAuthUser();
   const signOut = useSignOut();
+
+  document.title = `Home | ${auth().username}`;
 
   const HandleSignOut = () => {
     signOut();
@@ -23,7 +23,7 @@ const Home = () => {
             className={styles.user_img}
           />
 
-          <h1 className={styles.username}>Hello {auth().username}!</h1>
+          <h1 className={styles.username}>Hi {auth().username}!</h1>
           <a href={`mailto:${auth().email}`}>
             <p className={styles.email}>{auth().email}</p>
           </a>
