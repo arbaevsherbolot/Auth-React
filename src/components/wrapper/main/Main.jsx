@@ -4,6 +4,7 @@ import { useAuthUser } from "react-auth-kit";
 import Login from "../../pages/auth/login/Login";
 import Register from "../../pages/auth//register/Register";
 import Home from "../../pages/home/Home";
+import Error from "../../pages/error/Error";
 
 export const Main = () => {
   const auth = useAuthUser();
@@ -11,8 +12,9 @@ export const Main = () => {
     <>
       <Routes>
         <Route element={<Home />} path="/" />
-        <Route element={auth() ? null : <Login />} path="/login" />
+        <Route element={auth() ? <Error /> : <Login />} path="/login" />
         <Route element={<Register />} path="/register" />
+        <Route element={<Error />} path="*" />
       </Routes>
     </>
   );

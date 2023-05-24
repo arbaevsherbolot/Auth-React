@@ -17,8 +17,16 @@ const Home = () => {
     <>
       {auth() ? (
         <div className={styles.profile}>
+          <img
+            src="https://support.signal.org/hc/article_attachments/360083910451/animated-2.gif"
+            alt="Icon"
+            className={styles.user_img}
+          />
+
           <h1 className={styles.username}>Hello {auth().username}!</h1>
-          <p className={styles.email}>{auth().email}</p>
+          <a href={`mailto:${auth().email}`}>
+            <p className={styles.email}>{auth().email}</p>
+          </a>
 
           <button className={styles.btn} onClick={HandleSignOut}>
             Sign Out
