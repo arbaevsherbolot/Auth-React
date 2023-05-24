@@ -42,10 +42,12 @@ const Home = () => {
               className={styles.user_img}
             />
 
-            <h1 className={styles.username}>Hi {auth().username}!</h1>
-            <a href={`mailto:${auth().email}`}>
-              <p className={styles.email}>{auth().email}</p>
-            </a>
+            <div className={styles.user_data}>
+              <h1 className={styles.username}>{auth().username}</h1>
+              <a href={`mailto:${auth().email}`}>
+                <p className={styles.email}>{auth().email}</p>
+              </a>
+            </div>
 
             <button className={styles.btn} onClick={HandleSignOut}>
               Sign Out
