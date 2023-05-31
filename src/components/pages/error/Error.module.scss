@@ -11,6 +11,8 @@
 
   position: relative;
 
+  overflow: hidden;
+
   .img {
     width: 500px;
 
@@ -31,11 +33,24 @@
     transform: translate(-50%, -50%);
 
     line-height: 0.4;
-    font-size: 8rem;
-    color: #ffffffab;
+    font-size: 180px;
+    color: #00ffbbeb;
+
+    @media (max-width: 1325px) {
+      font-size: 130px;
+    }
 
     span {
-      font-size: 1rem;
+      padding: 0.2rem 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #171c24;
+      background-color: #00ffbbeb;
+      font-family: "PP Neue Machina, Ultrabold";
+
+      @media (max-width: 1325px) {
+        font-size: 1rem;
+      }
     }
   }
 }

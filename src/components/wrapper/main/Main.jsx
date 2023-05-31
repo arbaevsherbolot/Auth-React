@@ -8,13 +8,14 @@ import Error from "../../pages/error/Error";
 
 export const Main = () => {
   const auth = useAuthUser();
+
   return (
     <>
       <Routes>
-        <Route element={<Home />} path="/" />
+        <Route element={auth() ? <Home /> : <Login />} path="/" />
         <Route element={auth() ? <Error /> : <Login />} path="/login" />
-        <Route element={<Register />} path="/register" />
-        <Route element={<Error />} path="*" />
+        <Route element={auth() ? <Error /> : <Register />} path="/register" />
+        <Route element={<Error />} path="/*" />
       </Routes>
     </>
   );
