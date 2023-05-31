@@ -19,15 +19,11 @@
     display: flex;
     flex-direction: column;
 
+    background-color: #080d175a;
+    backdrop-filter: blur(4px);
+    border: 1px solid #c7daff52;
+
     gap: 1rem;
-
-    transition: 0.4s;
-
-    &:hover {
-      background-color: #080d175a;
-      backdrop-filter: blur(4px);
-      border: 1px solid #c7daff52;
-    }
 
     @media (max-width: 767px) {
       max-width: 370px;
@@ -73,12 +69,47 @@
     .password_wrapper {
       position: relative;
 
-      .password_btn {
-        position: absolute;
-        right: 4%;
-        top: 50%;
+      .password_btn_wrapper {
+        .password_btn {
+          position: absolute;
+          right: 4%;
+          top: 50%;
 
-        transform: translate(-4%, -50%);
+          transform: translate(-4%, -50%);
+        }
+
+        .hint_container {
+          opacity: 0;
+          visibility: hidden;
+
+          transition: 0.4s;
+
+          .hint_title {
+            display: none;
+          }
+        }
+
+        &:hover {
+          .hint_container {
+            opacity: 1;
+            visibility: visible;
+
+            position: absolute;
+            right: -5px;
+            top: 70%;
+
+            .hint_title {
+              display: block;
+
+              font-size: 0.5rem;
+              font-weight: 400;
+
+              background-color: #d3e2ff;
+              border-radius: 2px;
+              padding: 0.3rem;
+            }
+          }
+        }
       }
     }
 

@@ -11,7 +11,7 @@ const Home = () => {
 
   document.title = `Home ${auth() ? " | " + auth().username : ""}`;
 
-  const server_url = "https://auth-node.up.railway.app/auth/users";
+  const server_url = "http://localhost:2006/auth/users";
 
   const HandleSignOut = () => {
     signOut();

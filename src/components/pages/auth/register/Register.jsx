@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import show_icon from "../../../../assets/svg/show.svg";
+import hide_icon from "../../../../assets/svg/hide.svg";
 import styles from "./Register.module.scss";
 
 const Register = () => {
@@ -42,7 +43,7 @@ const Register = () => {
     setShowPassword(!showPassword);
   };
 
-  const server_url = "https://auth-node.up.railway.app/auth";
+  const server_url = "http://localhost:2006/auth";
 
   const navigate = useNavigate();
 
@@ -130,12 +131,20 @@ const Register = () => {
               className={styles.input}
             />
 
-            <img
-              src={show_icon}
-              alt="password-icon"
-              className={styles.password_btn}
-              onClick={password_toggle}
-            />
+            <div className={styles.password_btn_wrapper}>
+              <img
+                src={showPassword ? hide_icon : show_icon}
+                alt="password-icon"
+                className={styles.password_btn}
+                onClick={password_toggle}
+              />
+
+              <div className={styles.hint_container}>
+                <p className={styles.hint_title}>
+                  {showPassword ? "Hide password" : "Show password"}
+                </p>
+              </div>
+            </div>
           </div>
 
           <button type="submit" className={styles.button}>
