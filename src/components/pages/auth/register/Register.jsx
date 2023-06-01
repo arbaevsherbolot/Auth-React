@@ -43,7 +43,7 @@ const Register = () => {
     setShowPassword(!showPassword);
   };
 
-  const server_url = "http://localhost:2006/auth";
+  const server_url = import.meta.env.VITE_SERVER_URL;
 
   const navigate = useNavigate();
 
