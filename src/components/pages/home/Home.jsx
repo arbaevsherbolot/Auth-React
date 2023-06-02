@@ -11,7 +11,7 @@ const Home = () => {
 
   document.title = `Home ${auth() ? " | " + auth().username : ""}`;
 
-  const server_url = import.meta.env.VITE_SERVER_URL;
+  const server_url = `${import.meta.env.VITE_SERVER_URL}/users`;
 
   const HandleSignOut = () => {
     signOut();
